@@ -2,7 +2,6 @@ package com.ibm.aimonitoring.ingestion.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.aimonitoring.ingestion.dto.LogEntryDTO;
-import com.ibm.aimonitoring.ingestion.dto.LogResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
