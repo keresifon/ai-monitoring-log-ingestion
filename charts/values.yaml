@@ -1,9 +1,9 @@
-replicaCount: 3
+replicaCount: 1
 
 image:
   repository: ghcr.io/keresifon/ai-monitoring-log-ingestion
   pullPolicy: IfNotPresent
-  tag: "1.0.1"
+  tag: "1.0.2"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -23,14 +23,11 @@ resources:
     cpu: 500m
     memory: 512Mi
   requests:
-    cpu: 100m
+    cpu: 50m
     memory: 256Mi
 
 autoscaling:
-  enabled: true
-  minReplicas: 3
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 70
+  enabled: false
 
 env:
   SPRING_PROFILES_ACTIVE: kubernetes
