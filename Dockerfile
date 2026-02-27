@@ -1,6 +1,9 @@
 # Multi-stage build for Log Ingestion Service
 FROM maven:3.9-eclipse-temurin-17-alpine AS build
 
+# Update Alpine packages to fix CVEs
+RUN apk update && apk upgrade
+
 WORKDIR /app
 
 # Copy pom.xml and download dependencies (cached layer)
@@ -13,6 +16,9 @@ RUN mvn clean package -DskipTests
 
 # Runtime stage
 FROM eclipse-temurin:17-jre-alpine
+
+# Update Alpine packages to fix CVEs
+RUN apk update && apk upgrade
 
 WORKDIR /app
 

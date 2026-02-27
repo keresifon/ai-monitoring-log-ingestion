@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "log-ingestion.fullname" . }}
+  namespace: ai-monitoring
   labels:
     {{- include "log-ingestion.labels" . | nindent 4 }}
+    tier: ingestion
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -15,6 +17,7 @@ spec:
     metadata:
       labels:
         {{- include "log-ingestion.selectorLabels" . | nindent 8 }}
+        tier: ingestion
     spec:
       serviceAccountName: {{ include "log-ingestion.serviceAccountName" . }}
       containers:
@@ -35,13 +38,15 @@ spec:
             - name: RABBITMQ_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "log-ingestion.fullname" . }}-secrets
+                  name: {{ .Values.secrets.commonSecretName }}
                   key: rabbitmq-username
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "log-ingestion.fullname" . }}-secrets
+                  name: {{ .Values.secrets.commonSecretName }}
                   key: rabbitmq-password
+          startupProbe:
+            {{- toYaml .Values.startupProbe | nindent 12 }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
