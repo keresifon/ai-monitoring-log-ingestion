@@ -10,7 +10,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
-  create: true
+  create: false
   annotations: {}
   name: ""
 
@@ -39,20 +39,33 @@ rabbitmq:
   host: rabbitmq
   port: 5672
 
+# Secret name for RabbitMQ credentials (from install-dependencies.sh)
 secrets:
-  rabbitmqUsername: ""
-  rabbitmqPassword: ""
+  commonSecretName: ai-monitoring-secrets
+
+startupProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 24
 
 livenessProbe:
   httpGet:
     path: /actuator/health/liveness
     port: http
-  initialDelaySeconds: 60
-  periodSeconds: 10
+  initialDelaySeconds: 0
+  periodSeconds: 15
+  timeoutSeconds: 10
+  failureThreshold: 5
 
 readinessProbe:
   httpGet:
     path: /actuator/health/readiness
     port: http
-  initialDelaySeconds: 30
-  periodSeconds: 5
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
