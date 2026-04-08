@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/kere-sifon/ai-monitoring-log-ingestion
   pullPolicy: IfNotPresent
-  tag: "1.0.3"
+  tag: "1.0.4"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -31,6 +31,13 @@ autoscaling:
 
 env:
   SPRING_PROFILES_ACTIVE: kubernetes
+
+# Same PostgreSQL service/credentials as log-processor (see ai-monitoring-secrets)
+database:
+  host: postgres-hl
+  port: 5432
+  name: ai_monitoring
+  schema: log_service
 
 rabbitmq:
   host: rabbitmq
