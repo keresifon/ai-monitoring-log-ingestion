@@ -32,6 +32,13 @@ autoscaling:
 env:
   SPRING_PROFILES_ACTIVE: kubernetes
 
+# Same PostgreSQL service/credentials as log-processor (see ai-monitoring-secrets)
+database:
+  host: postgres-hl
+  port: 5432
+  name: ai_monitoring
+  schema: log_service
+
 rabbitmq:
   host: rabbitmq
   port: 5672
